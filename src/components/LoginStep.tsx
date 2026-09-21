@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { RobotIcon } from './RobotIcon';
-import { Mail, User, ArrowRight } from 'lucide-react';
+import { Mail, User, ArrowRight, Download } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface LoginStepProps {
   initialEmail: string;
   initialName: string;
   onLogin: (email: string, name: string) => void;
+  onOpenInstall?: () => void;
 }
 
 export const LoginStep: React.FC<LoginStepProps> = ({
   initialEmail,
   initialName,
   onLogin,
+  onOpenInstall,
 }) => {
   const [email, setEmail] = useState(initialEmail || '');
   const [name, setName] = useState(initialName || '');
@@ -158,6 +160,20 @@ export const LoginStep: React.FC<LoginStepProps> = ({
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
+
+            {onOpenInstall && (
+              <div className="pt-3 border-t border-white/40 flex items-center justify-center">
+                <button
+                  type="button"
+                  id="btn-install-app-login"
+                  onClick={onOpenInstall}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#00695c] hover:text-[#004d40] px-3.5 py-1.5 rounded-full bg-white/50 hover:bg-white/70 border border-white/60 transition-all cursor-pointer shadow-2xs backdrop-blur-sm"
+                >
+                  <Download className="w-3.5 h-3.5 text-[#009387]" />
+                  <span>Download / Install this App</span>
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </motion.div>

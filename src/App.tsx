@@ -7,6 +7,7 @@ import { FinalSubmissionStep } from './components/FinalSubmissionStep';
 import { ProfileDetailsStep } from './components/ProfileDetailsStep';
 import { CertificateStep } from './components/CertificateStep';
 import { FeedbackModal } from './components/FeedbackModal';
+import { InstallModal } from './components/InstallModal';
 import { INITIAL_MODULES } from './data/modulesData';
 import {
   PortalStep,
@@ -36,6 +37,7 @@ export default function App() {
   });
 
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -181,6 +183,7 @@ export default function App() {
           totalModulesCount={modules.length}
           onNavigateStep={(step) => setCurrentStep(step)}
           onExitSession={handleExitSession}
+          onOpenInstall={() => setIsInstallModalOpen(true)}
         />
       )}
 
@@ -192,6 +195,7 @@ export default function App() {
             initialEmail={session.email}
             initialName={session.name}
             onLogin={handleLogin}
+            onOpenInstall={() => setIsInstallModalOpen(true)}
           />
         )}
 
@@ -247,6 +251,12 @@ export default function App() {
         isOpen={isFeedbackModalOpen}
         onClose={() => setIsFeedbackModalOpen(false)}
         participantName={session.name}
+      />
+
+      {/* Progressive Web App Install Modal */}
+      <InstallModal
+        isOpen={isInstallModalOpen}
+        onClose={() => setIsInstallModalOpen(false)}
       />
 
       {/* Floating Notification Toast */}

@@ -7,6 +7,7 @@ import {
   FileText,
   User,
   Award,
+  Download,
   LogOut,
 } from 'lucide-react';
 
@@ -17,6 +18,7 @@ interface HeaderProps {
   totalModulesCount: number;
   onNavigateStep: (step: PortalStep) => void;
   onExitSession: () => void;
+  onOpenInstall?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -26,6 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   totalModulesCount,
   onNavigateStep,
   onExitSession,
+  onOpenInstall,
 }) => {
   const stepsConfig = [
     { step: 1 as PortalStep, label: '1. Participant Login', icon: CheckCircle2 },
@@ -74,6 +77,18 @@ export const Header: React.FC<HeaderProps> = ({
               {submittedModulesCount}/{totalModulesCount} Completed
             </span>
           </div>
+
+          {onOpenInstall && (
+            <button
+              id="btn-install-app-header"
+              onClick={onOpenInstall}
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-teal-900 hover:text-teal-950 bg-teal-50 hover:bg-teal-100/80 px-3 py-1.5 rounded-xl border border-teal-300/80 transition-colors backdrop-blur-sm cursor-pointer shadow-2xs"
+              title="Download/Install this portal as an app on Windows, Mac, Android, or iOS"
+            >
+              <Download className="w-3.5 h-3.5 text-[#009387]" />
+              <span className="hidden sm:inline">Install App</span>
+            </button>
+          )}
 
           <button
             id="btn-exit-session-header"

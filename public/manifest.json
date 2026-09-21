@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "AI Workshop Submission Portal",
+  "short_name": "AI Workshop",
+  "description": "Official AI Workshop submission portal for participant verification, 13 AI module document submissions, final assessment, and verifiable certificate issuance.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#032924",
+  "theme_color": "#009387",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
