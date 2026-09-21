@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply antialiased text-slate-900 bg-slate-900 selection:bg-emerald-500 selection:text-white;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  header,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  #official-certificate-container {
+    width: 100% !important;
+    min-width: 100% !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+}
