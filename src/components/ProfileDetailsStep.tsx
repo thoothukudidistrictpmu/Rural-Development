@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UserSession } from '../types';
-import { TamilNaduEmblem } from './Emblem';
+import { GovernmentLogo } from './GovernmentLogo';
 import {
   ArrowLeft,
   ArrowRight,
@@ -29,9 +29,11 @@ export const ProfileDetailsStep: React.FC<ProfileDetailsStepProps> = ({
   modulesCompletedCount,
 }) => {
   const [name, setName] = useState(session.name || '');
-  const [designation, setDesignation] = useState(session.designation || 'VAO');
+  const [designation, setDesignation] = useState(
+    session.designation || 'Assistant Section Officer'
+  );
   const [department, setDepartment] = useState(
-    session.department || 'Revenue & Disaster Management'
+    session.department || 'District Administration, Thoothukudi'
   );
 
   const designationSuggestions = ['VAO', 'Revenue Inspector', 'Deputy Tahsildar'];
@@ -282,7 +284,7 @@ export const ProfileDetailsStep: React.FC<ProfileDetailsStepProps> = ({
 
               {/* State Emblem */}
               <div className="mb-3 flex justify-center">
-                <TamilNaduEmblem size={52} />
+                <GovernmentLogo size={56} />
               </div>
 
               <h4 className="text-[10px] tracking-widest uppercase font-bold text-slate-500 mb-1">
@@ -294,15 +296,15 @@ export const ProfileDetailsStep: React.FC<ProfileDetailsStepProps> = ({
                 style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                 className="text-2xl sm:text-3xl font-bold text-slate-900 my-2 tracking-tight"
               >
-                {name || 'John Doe'}
+                {name || 'Participant Name'}
               </h3>
 
               {/* Designation & Department */}
               <p className="text-sm font-bold text-teal-700 mb-0.5">
-                {designation || 'VAO'}
+                {designation || 'Assistant Section Officer'}
               </p>
               <p className="text-xs text-slate-600 mb-4 font-medium">
-                {department || 'Revenue & Disaster Management'}
+                {department || 'District Administration, Thoothukudi'}
               </p>
 
               {/* Footer row */}

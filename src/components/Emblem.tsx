@@ -1,4 +1,5 @@
 import React from 'react';
+export { GovernmentLogo } from './GovernmentLogo';
 
 interface EmblemProps {
   className?: string;

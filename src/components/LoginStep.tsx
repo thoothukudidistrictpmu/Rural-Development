@@ -139,7 +139,7 @@ export const LoginStep: React.FC<LoginStepProps> = ({
                   id="input-login-name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. John Doe"
+                  placeholder="e.g. Enter your full name"
                   required
                   className="block w-full pl-11 pr-4 py-3.5 bg-white/45 hover:bg-white/60 focus:bg-white/80 border border-white/70 hover:border-white focus:border-[#009387] rounded-xl text-slate-950 font-medium placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-[#009387]/50 text-sm transition-all shadow-xs backdrop-blur-md"
                 />

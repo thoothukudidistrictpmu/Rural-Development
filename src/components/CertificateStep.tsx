@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { UserSession, BorderStyle, ModuleItem } from '../types';
-import { TamilNaduEmblem } from './Emblem';
+import { GovernmentLogo } from './GovernmentLogo';
+import { LogoUploadModal } from './LogoUploadModal';
 import {
   Award,
   Download,
@@ -14,6 +15,7 @@ import {
   QrCode,
   ShieldCheck,
   Image as ImageIcon,
+  Upload,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { toPng } from 'html-to-image';
@@ -36,6 +38,14 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
   const [borderStyle, setBorderStyle] = useState<BorderStyle>('royal-gold');
   const [copied, setCopied] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isLogoModalOpen, setIsLogoModalOpen] = useState(false);
+  const [customLogoUrl, setCustomLogoUrl] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('tn_gov_logo');
+    } catch {
+      return null;
+    }
+  });
   const certificateRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -204,6 +214,17 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
               <span>Edit Details</span>
             </button>
 
+            {/* Logo Settings / Upload */}
+            <button
+              id="btn-upload-logo-cert"
+              onClick={() => setIsLogoModalOpen(true)}
+              className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-300/70 text-amber-950 rounded-xl text-xs font-bold shadow-xs transition-colors cursor-pointer backdrop-blur-md"
+              title="Upload Tamilnadu-Government-Color Logo"
+            >
+              <ImageIcon className="w-3.5 h-3.5 text-amber-700" />
+              <span>Tamilnadu-Government-Color Logo</span>
+            </button>
+
             {/* Feedback Form */}
             <button
               id="btn-feedback-form"
@@ -324,9 +345,13 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
 
             {/* Top Section: Emblem, Title & Certify */}
             <div className="text-center pt-2">
-              {/* Tamil Nadu State Emblem */}
-              <div className="flex justify-center mb-3">
-                <TamilNaduEmblem size={74} />
+              {/* Tamil Nadu State Government Color Logo */}
+              <div className="flex flex-col items-center justify-center mb-3">
+                <GovernmentLogo
+                  size={88}
+                  customLogoUrl={customLogoUrl}
+                  onOpenUploadModal={() => setIsLogoModalOpen(true)}
+                />
               </div>
 
               {/* Sub-header */}
@@ -364,7 +389,7 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
                   style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
                   className="text-3xl sm:text-4xl font-bold text-slate-950 tracking-tight px-8"
                 >
-                  {session.name || 'John Doe'}
+                  {session.name || 'Participant Name'}
                 </h2>
                 {/* Decorative Gold Bar under Name */}
                 <div className="flex items-center justify-center mt-2">
@@ -376,9 +401,13 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
 
               {/* Designation • Department */}
               <p className="text-sm sm:text-base font-semibold text-slate-800 tracking-wide mt-2">
-                <span className="font-bold text-slate-900">{session.designation || 'VAO'}</span>
+                <span className="font-bold text-slate-900">
+                  {session.designation || 'Assistant Section Officer'}
+                </span>
                 <span className="mx-2 text-amber-600 font-bold">•</span>
-                <span>{session.department || 'Revenue & Disaster Management'}</span>
+                <span>
+                  {session.department || 'District Administration, Thoothukudi'}
+                </span>
               </p>
 
               {/* Descriptive Paragraph matching Image 5 */}
@@ -410,24 +439,27 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
               </div>
             </div>
 
-            {/* Bottom Row: Authorized Signatures, Official Gold Seal, QR Code matching Image 5 */}
-            <div className="pt-4 border-t border-amber-200/60 grid grid-cols-3 items-end text-center mt-2">
-              {/* Left Signatory */}
-              <div className="flex flex-col items-center">
-                <div
-                  style={{ fontFamily: "'Great Vibes', cursive" }}
-                  className="text-2xl text-slate-800 h-9 flex items-center select-none"
-                >
-                  Dr. S. K. Ramanathan
+            {/* Bottom Row: Authorized Sole Signatory (Thiru. Vishu Mahajan), Official Gold Seal, QR Code */}
+            <div className="pt-4 border-t border-amber-200/60 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-end text-center mt-2">
+              {/* Left Column: Official Verification & Security Details */}
+              <div className="hidden md:flex flex-col items-center sm:items-start text-left pl-4">
+                <p className="text-[10px] font-bold tracking-wider text-slate-800 uppercase">
+                  Government of Tamil Nadu
+                </p>
+                <p className="text-[9px] text-slate-600 mt-0.5">
+                  District Administration, Thoothukudi
+                </p>
+                <div className="flex items-center space-x-1.5 mt-2 text-[9px] text-slate-600">
+                  <QrCode className="w-3.5 h-3.5 text-slate-700 shrink-0" />
+                  <span className="font-mono text-[9px]">{session.verificationHash}</span>
                 </div>
-                <div className="w-44 h-0.5 bg-slate-400 my-1" />
-                <p className="text-[11px] font-bold text-slate-900">Dr. S. K. Ramanathan, IAS</p>
-                <p className="text-[10px] text-slate-600">State Mission Director</p>
-                <p className="text-[9px] text-slate-500">AI & Digital Governance Cell</p>
+                <p className="text-[9px] text-slate-500 mt-0.5">
+                  Issued: {session.issueDate}
+                </p>
               </div>
 
-              {/* Center Seal & QR Verification */}
-              <div className="flex flex-col items-center justify-center">
+              {/* Center Seal */}
+              <div className="flex flex-col items-center justify-center order-first sm:order-none">
                 {/* Official Embossed Gold Seal with Ribbons */}
                 <div className="relative mb-2">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 border-2 border-amber-700 flex items-center justify-center shadow-md">
@@ -445,33 +477,43 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
                   </div>
                 </div>
 
-                {/* QR Code & Hash */}
-                <div className="flex items-center space-x-1.5 mt-2 text-[9px] text-slate-600">
+                <div className="md:hidden flex items-center space-x-1.5 mt-1 text-[9px] text-slate-600">
                   <QrCode className="w-3.5 h-3.5 text-slate-700" />
-                  <span className="font-mono">{session.verificationHash}</span>
+                  <span className="font-mono text-[9px]">{session.verificationHash}</span>
                 </div>
-                <p className="text-[9px] text-slate-500 mt-0.5 font-medium">
-                  Verified: {session.issueDate}
-                </p>
               </div>
 
-              {/* Right Signatory */}
-              <div className="flex flex-col items-center">
+              {/* Right Column: Authorized Signatory - Thiru. Vishu Mahajan (Only his name, no other signatories) */}
+              <div className="flex flex-col items-center pr-2">
                 <div
                   style={{ fontFamily: "'Great Vibes', cursive" }}
-                  className="text-2xl text-slate-800 h-9 flex items-center select-none"
+                  className="text-2xl sm:text-3xl text-slate-900 h-10 flex items-center select-none"
                 >
-                  R. Meenakshi Sundaram
+                  Thiru. Vishu Mahajan
                 </div>
-                <div className="w-44 h-0.5 bg-slate-400 my-1" />
-                <p className="text-[11px] font-bold text-slate-900">Prof. R. Meenakshi Sundaram</p>
-                <p className="text-[10px] text-slate-600">Director of Training</p>
-                <p className="text-[9px] text-slate-500">Dept. of Revenue & Disaster Management</p>
+                <div className="w-48 h-0.5 bg-slate-400 my-1.5" />
+                <p className="text-[12px] font-bold text-slate-900 tracking-tight">
+                  Thiru. Vishu Mahajan
+                </p>
+                <p className="text-[10px] text-slate-700 font-medium">
+                  District Collector & District Magistrate
+                </p>
+                <p className="text-[9px] text-slate-500">
+                  Thoothukudi District
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Tamil Nadu Government Color Logo Upload & Route Modal */}
+      <LogoUploadModal
+        isOpen={isLogoModalOpen}
+        onClose={() => setIsLogoModalOpen(false)}
+        onLogoUpdated={(newLogo) => setCustomLogoUrl(newLogo)}
+        currentLogoUrl={customLogoUrl}
+      />
     </div>
   );
 };

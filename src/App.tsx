@@ -22,9 +22,9 @@ export default function App() {
   const [session, setSession] = useState<UserSession>({
     name: '',
     email: '',
-    designation: 'VAO',
-    department: 'Revenue & Disaster Management',
-    certificateRef: 'CERT-2026-47923',
+    designation: 'Assistant Section Officer',
+    department: 'District Administration, Thoothukudi',
+    certificateRef: 'CERT-TN-2026-47923',
     issueDate: '21/09/2026',
     verificationHash: 'SHA256: 8F4B92C...9A1',
   });
@@ -48,14 +48,14 @@ export default function App() {
   };
 
   const handleLogin = (email: string, name: string) => {
-    const cleanName = name || 'John Doe';
-    const firstWord = cleanName.split(' ')[0].toUpperCase();
+    const cleanName = name.trim() || 'Participant';
+    const firstWord = (cleanName.split(' ')[0] || 'TN').toUpperCase();
     const randomSuffix = Math.floor(10000 + Math.random() * 90000);
     const newRef = `CERT-${firstWord}-2026-${randomSuffix}`;
 
     setSession((prev) => ({
       ...prev,
-      email,
+      email: email.trim(),
       name: cleanName,
       certificateRef: newRef,
     }));
