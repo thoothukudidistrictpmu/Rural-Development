@@ -6,55 +6,61 @@ import { ReferenceMaterial } from '../types';
  */
 export async function downloadReferenceMaterial(moduleCode: string, material: ReferenceMaterial) {
   if (material.url) {
-    // 1. Direct Google Docs / Sheets / Slides export links OR direct drive file downloads (uc?export=download)
-    // Directly launch standard browser download
-    if (
-      (material.url.includes('docs.google.com') && material.url.includes('/export')) ||
-      (material.url.includes('drive.google.com') && material.url.includes('export=download'))
-    ) {
-      const a = document.createElement('a');
-      a.href = material.url;
-      a.download = material.filename;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      return;
-    }
+    // 1. Direct local file (hosted in public directory)
+    if (!material.url.startsWith('http://') && !material.url.startsWith('https://')) {
+      try {
+        const response = await fetch(material.url);
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
 
-    // 2. Google Drive folder or viewer links - open in new tab
-    if (material.url.startsWith('http') && material.url.includes('drive.google.com')) {
-      window.open(material.url, '_blank', 'noopener,noreferrer');
-      return;
-    }
+        const arrayBuffer = await response.arrayBuffer();
 
-    try {
-      // Fetch the actual file content to guarantee it downloads cleanly without browser navigation or HTML wrapping
-      const response = await fetch(material.url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Assign accurate MIME type based on file extension
+        let mimeType = 'application/octet-stream';
+        if (material.filename.endsWith('.docx')) {
+          mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        } else if (material.filename.endsWith('.pdf')) {
+          mimeType = 'application/pdf';
+        } else if (material.filename.endsWith('.pptx')) {
+          mimeType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+        } else if (material.filename.endsWith('.xlsx')) {
+          mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        }
+
+        const blob = new Blob([arrayBuffer], { type: mimeType });
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = blobUrl;
+        a.download = material.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 30000);
+        return;
+      } catch (err) {
+        console.warn('Blob fetch failed, falling back to direct anchor download', err);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = material.url;
+        a.download = material.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
       }
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = material.filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(blobUrl);
-      return;
-    } catch (err) {
-      console.warn('Direct blob fetch failed, falling back to window download', err);
-      const a = document.createElement('a');
-      a.href = material.url;
-      a.download = material.filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      return;
     }
+
+    // 2. Remote URL: Trigger standard browser download
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = material.url;
+    a.download = material.filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
   }
 
   // Generate downloadable reference document blob

@@ -21,6 +21,7 @@ export interface ReferenceMaterial {
   format: 'DOCX' | 'PDF' | 'PPTX' | 'XLSX' | 'TXT';
   size?: string;
   url?: string;
+  driveUrl?: string;
   contentSnippet?: string;
 }
 

@@ -198,19 +198,32 @@ export const INITIAL_MODULES: ModuleItem[] = [
     subtitle: 'Tender Document Vetting & Clause Compliance',
     description: 'Scrutinize tender documents, RFPs, eligibility criteria, evaluation rubrics, penalty clauses, and Tamil Nadu Transparency in Tenders Act compliance.',
     acceptedFormats: ['Word (.docx)', 'PDF (.pdf)'],
-    driveFolderUrl: 'https://docs.google.com/document/d/13cYdWhJNg_X_ScEi94g44zXaLc2-LH8vZzVYlzaUSJI/edit?usp=sharing',
     referenceMaterials: [
       {
         title: 'Draft Tender / RFP Document (01PudurPUO)',
         filename: 'MOD09_Draft_Tender_01PudurPUO.docx',
         format: 'DOCX',
-        size: 'Direct Download',
-        url: 'https://docs.google.com/document/d/13cYdWhJNg_X_ScEi94g44zXaLc2-LH8vZzVYlzaUSJI/export?format=docx'
+        size: '1.1 MB',
+        url: '/docs/MOD09_Draft_Tender_01PudurPUO.docx'
+      },
+      {
+        title: 'Office Note for LOA (ON for LOA)',
+        filename: 'MOD09_ON_for_LOA.docx',
+        format: 'DOCX',
+        size: '322 KB',
+        url: '/docs/MOD09_ON_for_LOA.docx'
+      },
+      {
+        title: 'LOA Approved Document (Letter of Award)',
+        filename: 'MOD09_LOA_approved.pdf',
+        format: 'PDF',
+        size: '74 KB',
+        url: '/docs/MOD09_LOA_approved.pdf'
       }
     ],
     status: 'pending',
     uploadedFile: null,
-    promptGuide: 'Scrutinize the attached draft Tender / Request for Proposal (RFP) document. Identify ambiguities, check compliance with Tamil Nadu Transparency in Tenders Act/Rules, evaluate eligibility criteria, and recommend essential risk mitigation clauses.'
+    promptGuide: 'Scrutinize the attached draft Tender / Request for Proposal (RFP) document, Office Note for LOA, and approved LOA document. Identify ambiguities, check compliance with Tamil Nadu Transparency in Tenders Act/Rules, evaluate eligibility criteria, and recommend essential risk mitigation clauses.'
   },
   {
     id: 'mod-10',

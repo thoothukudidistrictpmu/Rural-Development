@@ -115,10 +115,10 @@ export default function App() {
         ...m,
         status: 'submitted',
         uploadedFile: {
-          name: `${m.code}_${m.title.replace(/\s+/g, '_')}.${idx % 2 === 0 ? 'docx' : 'pdf'}`,
+          name: m.id === 'mod-09' ? 'MOD09_ON_for_LOA.docx' : `${m.code}_${m.title.replace(/\s+/g, '_')}.${idx % 2 === 0 ? 'docx' : 'pdf'}`,
           size: `${(140 + idx * 24).toFixed(1)} KB`,
           uploadedAt: now,
-          type: idx % 2 === 0 ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'application/pdf',
+          type: (m.id === 'mod-09' || idx % 2 === 0) ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'application/pdf',
         },
       }))
     );

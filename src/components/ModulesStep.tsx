@@ -268,46 +268,56 @@ export const ModulesStep: React.FC<ModulesStepProps> = ({
                       ))}
                     </div>
 
-                    {/* Relevant Reference Data / Exercise Files (Click to Download / Open) */}
+                    {/* Relevant Reference Data / Exercise Files (Direct Document Download) */}
                     {module.referenceMaterials && module.referenceMaterials.length > 0 && (
                       <div className="mb-4 pt-1.5 border-t border-white/40">
                         <div className="flex items-center justify-between mb-1.5">
                           <span className="text-[10px] font-extrabold text-[#00695c] uppercase tracking-wider flex items-center">
                             <FolderOpen className="w-3.5 h-3.5 mr-1 text-[#00897b]" />
-                            Reference Workshop Data
+                            Official Reference Documents
                           </span>
                           <span className="text-[10px] text-[#00796b] font-bold">
-                            Click to open / download
+                            Direct Document Download
                           </span>
                         </div>
                         <div className="flex flex-col gap-1.5">
                           {module.referenceMaterials.map((mat, idx) => (
-                            <button
+                            <div
                               key={idx}
-                              type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 downloadReferenceMaterial(module.code, mat);
                               }}
-                              title={mat.url ? `Open workshop material: ${mat.title}` : `Download ${mat.filename}`}
-                              className="group w-full flex items-center justify-between px-3 py-2 bg-white/65 hover:bg-white/95 border border-white/80 hover:border-teal-500 rounded-xl text-left transition-all cursor-pointer shadow-xs backdrop-blur-xs"
+                              className="group w-full flex items-center justify-between px-3 py-2 bg-white/70 hover:bg-white/95 border border-white/80 hover:border-teal-500 rounded-xl transition-all shadow-xs backdrop-blur-xs cursor-pointer"
+                              title={`Download ${mat.filename}`}
                             >
-                              <div className="flex items-center space-x-2.5 overflow-hidden pr-2">
+                              <div className="flex items-center space-x-2.5 overflow-hidden pr-2 flex-1 text-left">
                                 <span className="px-2 py-0.5 bg-[#009387] text-white rounded-md text-[9px] font-black shrink-0 shadow-2xs tracking-wide">
-                                  {mat.size === 'Drive Folder' ? 'DRIVE' : mat.format}
+                                  {mat.format}
                                 </span>
-                                <span className="text-[11px] font-bold text-slate-900 group-hover:text-teal-900 truncate">
-                                  {mat.title}
-                                </span>
+                                <div className="truncate">
+                                  <div className="text-[11px] font-bold text-slate-900 group-hover:text-teal-900 truncate">
+                                    {mat.title}
+                                  </div>
+                                  <div className="text-[9px] text-slate-500 font-medium truncate flex items-center space-x-1.5">
+                                    <span>{mat.filename}</span>
+                                    {mat.size && <span>• {mat.size}</span>}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="flex items-center space-x-1 shrink-0 text-[#00897b] group-hover:text-teal-700">
-                                {mat.size === 'Drive Folder' ? (
-                                  <ExternalLink className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-                                ) : (
-                                  <Download className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
-                                )}
-                              </div>
-                            </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  downloadReferenceMaterial(module.code, mat);
+                                }}
+                                title={`Download ${mat.filename} (${mat.format})`}
+                                className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold text-white bg-[#009387] hover:bg-[#00796b] transition-all cursor-pointer shadow-xs shrink-0"
+                              >
+                                <Download className="w-3 h-3" />
+                                <span>Download</span>
+                              </button>
+                            </div>
                           ))}
                         </div>
                       </div>
