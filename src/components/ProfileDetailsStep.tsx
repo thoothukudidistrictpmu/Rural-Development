@@ -311,7 +311,7 @@ export const ProfileDetailsStep: React.FC<ProfileDetailsStepProps> = ({
               <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 font-medium">
                 <span className="text-emerald-700 font-semibold flex items-center">
                   <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
-                  13 Modules Complete
+                  {modulesCompletedCount} Modules Complete
                 </span>
                 <span>Date: {session.issueDate || '21/09/2026'}</span>
               </div>

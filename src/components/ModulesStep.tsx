@@ -97,7 +97,7 @@ export const ModulesStep: React.FC<ModulesStepProps> = ({
                 className="inline-flex items-center space-x-2 px-4 py-2 bg-white/50 hover:bg-white/75 text-[#00695c] text-xs font-bold rounded-full border border-white/70 shadow-xs hover:border-white transition-all cursor-pointer backdrop-blur-md"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#00897b]" />
-                <span>Auto-Upload All 13 AI Demo Files</span>
+                <span>Auto-Upload All {modules.length} AI Demo Files</span>
               </button>
 
               <a

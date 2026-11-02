@@ -102,7 +102,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               <textarea
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Share how the 13 AI modules will improve your official file processing speed, report quality, or citizen grievance response..."
+                placeholder="Share how the AI modules will improve your official file processing speed, report quality, or citizen grievance response..."
                 rows={4}
                 className="w-full px-3.5 py-2.5 bg-white/50 border border-white/70 rounded-xl text-xs font-semibold text-slate-950 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white/80 transition-all resize-none backdrop-blur-md shadow-xs"
               />

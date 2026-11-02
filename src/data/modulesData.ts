@@ -290,27 +290,5 @@ export const INITIAL_MODULES: ModuleItem[] = [
     status: 'pending',
     uploadedFile: null,
     promptGuide: 'Analyze the attached block-wise scheme implementation dataset across all blocks in the district. Rank blocks by physical and financial progress %, highlight bottom-quartile performers, and draft targeted corrective instructions.'
-  },
-  {
-    id: 'mod-13',
-    code: 'MOD-13',
-    tag: 'Analytics',
-    title: 'Data Analysis – Water Supply',
-    subtitle: 'Piped & Tanker Supply Monitoring Dossier',
-    description: 'Analyze daily water distribution datasets, per-capita supply metrics, tanker supply logistics, pressure logs, pipeline defect registers, and deficit cluster predictions.',
-    acceptedFormats: ['Word (.docx)', 'PDF (.pdf)', 'PowerPoint (.pptx)'],
-    driveFolderUrl: 'https://docs.google.com/spreadsheets/d/14obwRy-5ICz29HwQjDayrP9AAXBhZO61I8geiMXadqQ/edit?usp=sharing',
-    referenceMaterials: [
-      {
-        title: 'Water Supply Dataset (Excel)',
-        filename: 'MOD13_Water_Supply_Data.xlsx',
-        format: 'XLSX',
-        size: 'Direct Download',
-        url: 'https://docs.google.com/spreadsheets/d/14obwRy-5ICz29HwQjDayrP9AAXBhZO61I8geiMXadqQ/export?format=xlsx'
-      }
-    ],
-    status: 'pending',
-    uploadedFile: null,
-    promptGuide: 'Perform data analysis on the provided water supply dataset (daily LPCD, tanker trips, habitations covered, chlorination reports). Summarize deficit panchayats, supply anomalies, and prepare an executive briefing note for water security monitoring.'
   }
 ];

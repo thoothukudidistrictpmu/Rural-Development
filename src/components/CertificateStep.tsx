@@ -412,7 +412,7 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
 
               {/* Descriptive Paragraph matching Image 5 */}
               <p className="text-xs text-slate-600 max-w-3xl mx-auto mt-4 leading-relaxed font-normal">
-                has successfully compiled, submitted, and completed all 13 core statutory and technical modules.
+                has successfully compiled, submitted, and completed all {modules.length} core statutory and technical modules.
                 All submissions and practical exercises have been verified with complete technical compliance:
               </p>
             </div>

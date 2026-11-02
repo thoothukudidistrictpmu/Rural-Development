@@ -122,7 +122,7 @@ export default function App() {
         },
       }))
     );
-    showToast('All 13 demo AI module documents successfully attached!');
+    showToast('All demo AI module documents successfully attached!');
   };
 
   const handleUploadFinalFile = (file: File) => {

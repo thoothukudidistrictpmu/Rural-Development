@@ -1,6 +1,6 @@
 {
   "name": "AI Workshop Submission Portal",
-  "description": "Official AI Workshop submission portal for participant verification, 13 AI module document submissions, final assessment, and verifiable certificate issuance.",
+  "description": "Official AI Workshop submission portal for participant verification, AI module document submissions, final assessment, and verifiable certificate issuance.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
