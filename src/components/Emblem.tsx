@@ -39,9 +39,9 @@ export const TamilNaduEmblem: React.FC<EmblemProps> = ({ className = 'w-16 h-16'
           </radialGradient>
         </defs>
 
-        {/* Outer Circular Ring */}
-        <circle cx="100" cy="100" r="94" fill="#ffffff" stroke="#047857" strokeWidth="4" />
-        <circle cx="100" cy="100" r="88" fill="#f8fafc" stroke="#d97706" strokeWidth="1.5" strokeDasharray="3 2" />
+        {/* Outer Circular Ring (Transparent background so certificate/pdf background shows through) */}
+        <circle cx="100" cy="100" r="94" fill="none" stroke="#047857" strokeWidth="4" />
+        <circle cx="100" cy="100" r="88" fill="none" stroke="#d97706" strokeWidth="1.5" strokeDasharray="3 2" />
 
         {/* Sunburst backdrop behind Gopuram */}
         <circle cx="100" cy="95" r="58" fill="url(#sunburst)" />

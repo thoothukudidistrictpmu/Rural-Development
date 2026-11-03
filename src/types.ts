@@ -40,11 +40,6 @@ export interface ModuleItem {
   promptGuide?: string;
 }
 
-export interface FinalSubmissionState {
-  status: 'pending' | 'submitted';
-  uploadedFile: UploadedFileInfo | null;
-}
-
 export type BorderStyle = 'royal-gold' | 'emerald' | 'platinum' | 'vintage-bronze';
 
-export type PortalStep = 1 | 2 | 3 | 4 | 5;
+export type PortalStep = 1 | 2 | 3 | 4;

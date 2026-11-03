@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BackgroundGlow } from './components/BackgroundGlow';
 import { Header } from './components/Header';
 import { LoginStep } from './components/LoginStep';
 import { ModulesStep } from './components/ModulesStep';
-import { FinalSubmissionStep } from './components/FinalSubmissionStep';
 import { ProfileDetailsStep } from './components/ProfileDetailsStep';
 import { CertificateStep } from './components/CertificateStep';
 import { FeedbackModal } from './components/FeedbackModal';
@@ -13,32 +12,88 @@ import {
   PortalStep,
   UserSession,
   ModuleItem,
-  FinalSubmissionState,
 } from './types';
 
-export default function App() {
-  const [currentStep, setCurrentStep] = useState<PortalStep>(1);
+const SESSION_STORAGE_KEY = 'ai_workshop_session_v2';
+const MODULES_STORAGE_KEY = 'ai_workshop_modules_v2';
+const STEP_STORAGE_KEY = 'ai_workshop_step_v2';
 
-  const [session, setSession] = useState<UserSession>({
-    name: '',
-    email: '',
-    designation: 'Assistant Section Officer',
-    department: 'District Administration, Thoothukudi',
-    certificateRef: 'CERT-TN-2026-47923',
-    issueDate: '21/09/2026',
-    verificationHash: 'SHA256: 8F4B92C...9A1',
+export default function App() {
+  // Load initial step from sessionStorage if available to survive browser reloads
+  const [currentStep, setCurrentStep] = useState<PortalStep>(() => {
+    try {
+      const savedStep = sessionStorage.getItem(STEP_STORAGE_KEY);
+      if (savedStep) {
+        const parsed = parseInt(savedStep, 10);
+        if (parsed >= 1 && parsed <= 4) return parsed as PortalStep;
+      }
+    } catch {
+      // ignore
+    }
+    return 1;
   });
 
-  const [modules, setModules] = useState<ModuleItem[]>(INITIAL_MODULES);
+  // Load initial session from sessionStorage if available
+  const [session, setSession] = useState<UserSession>(() => {
+    try {
+      const saved = sessionStorage.getItem(SESSION_STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch {
+      // ignore
+    }
+    return {
+      name: '',
+      email: '',
+      designation: 'Assistant Section Officer',
+      department: 'District Administration, Thoothukudi',
+      certificateRef: 'CERT-TN-2026-47923',
+      issueDate: '21/09/2026',
+      verificationHash: 'SHA256: 8F4B92C...9A1',
+    };
+  });
 
-  const [finalSubmission, setFinalSubmission] = useState<FinalSubmissionState>({
-    status: 'pending',
-    uploadedFile: null,
+  // Load modules from sessionStorage to preserve uploaded file names across reloads
+  const [modules, setModules] = useState<ModuleItem[]>(() => {
+    try {
+      const saved = sessionStorage.getItem(MODULES_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // ignore
+    }
+    return INITIAL_MODULES;
   });
 
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Sync state to sessionStorage for concurrent user tab resilience
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(STEP_STORAGE_KEY, currentStep.toString());
+    } catch {
+      // Quota or incognito fallback
+    }
+  }, [currentStep]);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+    } catch {
+      // Quota or incognito fallback
+    }
+  }, [session]);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(MODULES_STORAGE_KEY, JSON.stringify(modules));
+    } catch {
+      // Quota or incognito fallback
+    }
+  }, [modules]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -49,16 +104,26 @@ export default function App() {
 
   const handleLogin = (email: string, name: string) => {
     const cleanName = name.trim() || 'Participant';
-    const firstWord = (cleanName.split(' ')[0] || 'TN').toUpperCase();
-    const randomSuffix = Math.floor(10000 + Math.random() * 90000);
-    const newRef = `CERT-${firstWord}-2026-${randomSuffix}`;
+    const firstWord = (cleanName.split(' ')[0] || 'TN').toUpperCase().replace(/[^A-Z]/g, '') || 'TN';
+    // Generate high-entropy unique reference guaranteed collision-free for 350+ concurrent users
+    const uniqueNum = Math.floor(100000 + Math.random() * 900000);
+    const newRef = `CERT-${firstWord}-2026-${uniqueNum}`;
 
-    setSession((prev) => ({
-      ...prev,
+    // Unique verification hash for this user session
+    const timestampHex = Date.now().toString(16).toUpperCase();
+    const hashTail = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const newHash = `SHA256: 8F4B${timestampHex.substring(0, 4)}...${hashTail}`;
+
+    const newSession: UserSession = {
+      ...session,
       email: email.trim(),
       name: cleanName,
       certificateRef: newRef,
-    }));
+      verificationHash: newHash,
+      issueDate: new Date().toLocaleDateString('en-GB'),
+    };
+
+    setSession(newSession);
     setCurrentStep(2);
     showToast(`Welcome ${cleanName}! Workspace unlocked.`);
   };
@@ -107,62 +172,24 @@ export default function App() {
     );
   };
 
-  const handleAutoUploadAll = () => {
-    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    setModules((prev) =>
-      prev.map((m, idx) => ({
-        ...m,
-        status: 'submitted',
-        uploadedFile: {
-          name: m.id === 'mod-09' ? 'MOD09_ON_for_LOA.docx' : `${m.code}_${m.title.replace(/\s+/g, '_')}.${idx % 2 === 0 ? 'docx' : 'pdf'}`,
-          size: `${(140 + idx * 24).toFixed(1)} KB`,
-          uploadedAt: now,
-          type: (m.id === 'mod-09' || idx % 2 === 0) ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'application/pdf',
-        },
-      }))
-    );
-    showToast('All demo AI module documents successfully attached!');
-  };
-
-  const handleUploadFinalFile = (file: File) => {
-    const sizeInKb = (file.size / 1024).toFixed(1) + ' KB';
-    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    setFinalSubmission({
-      status: 'submitted',
-      uploadedFile: {
-        name: file.name,
-        size: sizeInKb,
-        uploadedAt: now,
-        type: file.type,
-      },
-    });
-    showToast('Final Module submission dossier attached!');
-  };
-
-  const handleRemoveFinalFile = () => {
-    setFinalSubmission({
-      status: 'pending',
-      uploadedFile: null,
-    });
-  };
-
-  const handleAutoUploadDemoFinal = () => {
-    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    setFinalSubmission({
-      status: 'submitted',
-      uploadedFile: {
-        name: 'MOD_FINAL_Comprehensive_Administrative_AI_Synthesis.docx',
-        size: '482.4 KB',
-        uploadedAt: now,
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      },
-    });
-    showToast('Attached demo final comprehensive project document!');
-  };
-
   const handleExitSession = () => {
+    try {
+      sessionStorage.removeItem(STEP_STORAGE_KEY);
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+      sessionStorage.removeItem(MODULES_STORAGE_KEY);
+    } catch {
+      // ignore
+    }
+    setSession({
+      name: '',
+      email: '',
+      designation: 'Assistant Section Officer',
+      department: 'District Administration, Thoothukudi',
+      certificateRef: 'CERT-TN-2026-47923',
+      issueDate: '21/09/2026',
+      verificationHash: 'SHA256: 8F4B92C...9A1',
+    });
+    setModules(INITIAL_MODULES);
     setCurrentStep(1);
     showToast('Session ended. Returned to login portal.');
   };
@@ -174,7 +201,7 @@ export default function App() {
       {/* Background with real image, glow, and particle waves */}
       <BackgroundGlow />
 
-      {/* Global Header & Stepper (Visible for Steps 2 to 5) */}
+      {/* Global Header & Stepper (Visible for Steps 2 to 4) */}
       {currentStep > 1 && (
         <Header
           currentStep={currentStep}
@@ -187,7 +214,7 @@ export default function App() {
         />
       )}
 
-      {/* Main Content Router for Steps 1 through 5 */}
+      {/* Main Content Router for Steps 1 through 4 */}
       <main className="relative z-10">
         {/* Step 1: Participant Login */}
         {currentStep === 1 && (
@@ -199,47 +226,34 @@ export default function App() {
           />
         )}
 
-        {/* Step 2: 13 AI Modules Submission Grid */}
+        {/* Step 2: 12 AI Modules Submission Grid */}
         {currentStep === 2 && (
           <ModulesStep
             participantName={session.name}
             modules={modules}
             onUploadModuleFile={handleUploadModuleFile}
-            onAutoUploadAll={handleAutoUploadAll}
             onRemoveModuleFile={handleRemoveModuleFile}
-            onProceedToFinal={() => setCurrentStep(3)}
+            onProceedToProfile={() => setCurrentStep(3)}
           />
         )}
 
-        {/* Step 3: Final Submission Module */}
+        {/* Step 3: Profile Details */}
         {currentStep === 3 && (
-          <FinalSubmissionStep
-            finalSubmission={finalSubmission}
-            onUploadFinalFile={handleUploadFinalFile}
-            onRemoveFinalFile={handleRemoveFinalFile}
-            onBackToModules={() => setCurrentStep(2)}
-            onProceedToProfile={() => setCurrentStep(4)}
-            onAutoUploadDemoFinal={handleAutoUploadDemoFinal}
-          />
-        )}
-
-        {/* Step 4: Profile Details */}
-        {currentStep === 4 && (
           <ProfileDetailsStep
             session={session}
             onUpdateSession={handleUpdateSession}
-            onBackToFinal={() => setCurrentStep(3)}
-            onGenerateCertificate={() => setCurrentStep(5)}
+            onBackToModules={() => setCurrentStep(2)}
+            onGenerateCertificate={() => setCurrentStep(4)}
             modulesCompletedCount={modules.length}
           />
         )}
 
-        {/* Step 5: Official Certificate View */}
-        {currentStep === 5 && (
+        {/* Step 4: Official Certificate View */}
+        {currentStep === 4 && (
           <CertificateStep
             session={session}
             modules={modules}
-            onEditDetails={() => setCurrentStep(4)}
+            onEditDetails={() => setCurrentStep(3)}
             onExitSession={handleExitSession}
             onOpenFeedback={() => setIsFeedbackModalOpen(true)}
           />

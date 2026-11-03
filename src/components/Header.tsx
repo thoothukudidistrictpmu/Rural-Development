@@ -4,7 +4,6 @@ import { PortalStep, UserSession } from '../types';
 import {
   CheckCircle2,
   Layers,
-  FileText,
   User,
   Award,
   Download,
@@ -33,9 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
   const stepsConfig = [
     { step: 1 as PortalStep, label: '1. Participant Login', icon: CheckCircle2 },
     { step: 2 as PortalStep, label: `2. ${totalModulesCount} AI Modules`, icon: Layers },
-    { step: 3 as PortalStep, label: '3. Final Submission Module', icon: FileText },
-    { step: 4 as PortalStep, label: '4. Profile Details', icon: User },
-    { step: 5 as PortalStep, label: '5. Certificate', icon: Award },
+    { step: 3 as PortalStep, label: '3. Profile Details', icon: User },
+    { step: 4 as PortalStep, label: '4. Certificate', icon: Award },
   ];
 
   return (
@@ -104,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Stepper Bar */}
       <div className="border-t border-white/40 bg-white/20 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-2.5 overflow-x-auto scrollbar-none">
-        <div className="max-w-7xl mx-auto flex items-center justify-between min-w-[740px]">
+        <div className="max-w-7xl mx-auto flex items-center justify-between min-w-[580px]">
           {stepsConfig.map((item, index) => {
             const isCompleted = item.step < currentStep || (item.step === 1 && session.name);
             const isActive = item.step === currentStep;

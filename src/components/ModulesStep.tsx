@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ModuleItem } from '../types';
 import {
-  Sparkles,
   ExternalLink,
   ArrowRight,
   Upload,
@@ -20,18 +19,16 @@ interface ModulesStepProps {
   participantName: string;
   modules: ModuleItem[];
   onUploadModuleFile: (moduleId: string, file: File) => void;
-  onAutoUploadAll: () => void;
   onRemoveModuleFile: (moduleId: string) => void;
-  onProceedToFinal: () => void;
+  onProceedToProfile: () => void;
 }
 
 export const ModulesStep: React.FC<ModulesStepProps> = ({
   participantName,
   modules,
   onUploadModuleFile,
-  onAutoUploadAll,
   onRemoveModuleFile,
-  onProceedToFinal,
+  onProceedToProfile,
 }) => {
   const [filter, setFilter] = useState<'all' | 'pending' | 'submitted'>('all');
   const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
@@ -89,17 +86,8 @@ export const ModulesStep: React.FC<ModulesStepProps> = ({
               </span>
             </div>
 
-            {/* Right Buttons: Auto-Upload All & Prompt Area */}
+            {/* Right Button: Prompt Area */}
             <div className="flex items-center space-x-3">
-              <button
-                id="btn-auto-upload-all"
-                onClick={onAutoUploadAll}
-                className="inline-flex items-center space-x-2 px-4 py-2 bg-white/50 hover:bg-white/75 text-[#00695c] text-xs font-bold rounded-full border border-white/70 shadow-xs hover:border-white transition-all cursor-pointer backdrop-blur-md"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#00897b]" />
-                <span>Auto-Upload All {modules.length} AI Demo Files</span>
-              </button>
-
               <a
                 id="link-prompt-sheet"
                 href="https://docs.google.com/spreadsheets/d/1AuwuyE5cfhjTTSaiIws51td7pK7ucqA-eYiV2HY03wU/edit?usp=sharing"
@@ -188,13 +176,13 @@ export const ModulesStep: React.FC<ModulesStepProps> = ({
               </button>
             </div>
 
-            {/* Proceed to Final Submission Module Button */}
+            {/* Proceed to Profile Details Button */}
             <button
-              id="btn-proceed-to-final-submission"
-              onClick={onProceedToFinal}
+              id="btn-proceed-to-profile-details"
+              onClick={onProceedToProfile}
               className="inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-[#009387] hover:bg-[#008276] text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-teal-900/30 active:scale-[0.99] transition-all cursor-pointer border border-teal-300/40"
             >
-              <span>Proceed to Final Submission Module</span>
+              <span>Proceed to Profile Details</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

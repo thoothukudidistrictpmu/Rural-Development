@@ -16,7 +16,7 @@ import { motion } from 'motion/react';
 interface ProfileDetailsStepProps {
   session: UserSession;
   onUpdateSession: (updated: Partial<UserSession>) => void;
-  onBackToFinal: () => void;
+  onBackToModules: () => void;
   onGenerateCertificate: () => void;
   modulesCompletedCount: number;
 }
@@ -24,7 +24,7 @@ interface ProfileDetailsStepProps {
 export const ProfileDetailsStep: React.FC<ProfileDetailsStepProps> = ({
   session,
   onUpdateSession,
-  onBackToFinal,
+  onBackToModules,
   onGenerateCertificate,
   modulesCompletedCount,
 }) => {
@@ -69,20 +69,20 @@ export const ProfileDetailsStep: React.FC<ProfileDetailsStepProps> = ({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
-      {/* Top Navigation Bar matching Image 4 */}
+      {/* Top Navigation Bar */}
       <div className="flex items-center justify-between mb-6">
         <button
-          id="btn-back-to-final-module"
-          onClick={onBackToFinal}
+          id="btn-back-to-modules"
+          onClick={onBackToModules}
           className="inline-flex items-center space-x-2 px-4 py-2 bg-white/40 backdrop-blur-md hover:bg-white/60 text-slate-800 text-xs font-bold rounded-full border border-white/60 shadow-xs transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Final Module</span>
+          <span>Back to AI Modules</span>
         </button>
 
         <span className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 bg-[#009387] text-white text-xs font-bold rounded-full shadow-2xs">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Step 4 of 5: Profile Details</span>
+          <span>Step 3 of 4: Profile Details</span>
         </span>
       </div>
 

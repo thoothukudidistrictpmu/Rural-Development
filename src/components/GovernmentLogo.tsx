@@ -90,8 +90,9 @@ export const GovernmentLogo: React.FC<GovernmentLogoProps> = ({
           height: `${size}px`,
           maxHeight: `${size}px`,
           width: 'auto',
+          backgroundColor: 'transparent',
         }}
-        className="object-contain drop-shadow-md select-none transition-transform group-hover:scale-105"
+        className="object-contain select-none transition-transform group-hover:scale-105"
       />
     </div>
   );
