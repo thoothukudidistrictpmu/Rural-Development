@@ -255,7 +255,11 @@ export default function App() {
             modules={modules}
             onEditDetails={() => setCurrentStep(3)}
             onExitSession={handleExitSession}
-            onOpenFeedback={() => setIsFeedbackModalOpen(true)}
+            onOpenFeedback={() => {
+              const url =
+                'https://docs.google.com/forms/d/e/1FAIpQLSeT0bBfGqkgmNOb8tUylUunhqOO-ebdmOt2BnVppsuaxRsswg/viewform?usp=sharing&ouid=113094465631862000503';
+              window.open(url, '_blank', 'noopener,noreferrer');
+            }}
           />
         )}
       </main>

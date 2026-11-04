@@ -155,16 +155,18 @@ export const CertificateStep: React.FC<CertificateStepProps> = ({
               <span>Edit Details</span>
             </button>
 
-            {/* 2. Feedback */}
-            <button
+            {/* 2. Feedback - Directly opens official Google Feedback Form */}
+            <a
               id="btn-feedback"
-              onClick={onOpenFeedback}
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeT0bBfGqkgmNOb8tUylUunhqOO-ebdmOt2BnVppsuaxRsswg/viewform?usp=sharing&ouid=113094465631862000503"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center space-x-2 px-4 py-2.5 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-300/70 text-purple-950 rounded-xl text-xs font-bold shadow-xs hover:shadow-md transition-all cursor-pointer backdrop-blur-md active:scale-[0.98]"
-              title="Give workshop feedback and share your experience"
+              title="Open official Google Feedback Form"
             >
               <MessageSquare className="w-4 h-4 text-purple-700" />
               <span>Feedback ↗</span>
-            </button>
+            </a>
 
             {/* 3. Download Certificate (PDF) */}
             <button

@@ -68,6 +68,21 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <div className="p-3 bg-purple-50 border border-purple-200/80 rounded-2xl flex items-center justify-between">
+              <div>
+                <p className="text-xs font-bold text-purple-950">Official Google Feedback Form</p>
+                <p className="text-[11px] text-purple-700">Submit your feedback directly via Google Forms</p>
+              </div>
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeT0bBfGqkgmNOb8tUylUunhqOO-ebdmOt2BnVppsuaxRsswg/viewform?usp=sharing&ouid=113094465631862000503"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 bg-purple-700 hover:bg-purple-800 text-white rounded-xl text-xs font-bold transition-colors shadow-xs inline-flex items-center space-x-1"
+              >
+                <span>Open Google Form ↗</span>
+              </a>
+            </div>
+
             <div>
               <label className="block text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">
                 Overall Workshop Effectiveness Rating
