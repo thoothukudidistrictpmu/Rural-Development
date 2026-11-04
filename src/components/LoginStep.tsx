@@ -50,7 +50,7 @@ export const LoginStep: React.FC<LoginStepProps> = ({
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]"
         >
-          AI-Workshop Submission
+          AI-Workshop Document Submission
           <span className="block mt-1 text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]">Portal</span>
         </h1>
       </motion.div>

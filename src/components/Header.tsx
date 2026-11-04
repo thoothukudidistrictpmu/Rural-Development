@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div className="flex items-center space-x-2.5">
               <h1 className="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight drop-shadow-2xs">
-                AI Workshop Submission Portal
+                AI-Workshop Document Submission Portal
               </h1>
               <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-[#009387] text-white shadow-2xs">
                 AI Certification
