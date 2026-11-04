@@ -205,25 +205,11 @@ export const INITIAL_MODULES: ModuleItem[] = [
         format: 'DOCX',
         size: '1.1 MB',
         url: '/docs/MOD09_Draft_Tender_01PudurPUO.docx'
-      },
-      {
-        title: 'Office Note for LOA (ON for LOA)',
-        filename: 'MOD09_ON_for_LOA.docx',
-        format: 'DOCX',
-        size: '322 KB',
-        url: '/docs/MOD09_ON_for_LOA.docx'
-      },
-      {
-        title: 'LOA Approved Document (Letter of Award)',
-        filename: 'MOD09_LOA_approved.pdf',
-        format: 'PDF',
-        size: '74 KB',
-        url: '/docs/MOD09_LOA_approved.pdf'
       }
     ],
     status: 'pending',
     uploadedFile: null,
-    promptGuide: 'Scrutinize the attached draft Tender / Request for Proposal (RFP) document, Office Note for LOA, and approved LOA document. Identify ambiguities, check compliance with Tamil Nadu Transparency in Tenders Act/Rules, evaluate eligibility criteria, and recommend essential risk mitigation clauses.'
+    promptGuide: 'Scrutinize the attached draft Tender / Request for Proposal (RFP) document. Identify ambiguities, check compliance with Tamil Nadu Transparency in Tenders Act/Rules, evaluate eligibility criteria, and recommend essential risk mitigation clauses.'
   },
   {
     id: 'mod-10',
@@ -241,11 +227,25 @@ export const INITIAL_MODULES: ModuleItem[] = [
         format: 'PDF',
         size: 'Direct Download',
         url: 'https://drive.google.com/uc?export=download&id=1T6B7l6t5bKQ-8B2F9JfFbpgnVsBc_IJ8'
+      },
+      {
+        title: 'Office Note for LOA (ON for LOA)',
+        filename: 'MOD10_ON_for_LOA.docx',
+        format: 'DOCX',
+        size: '322 KB',
+        url: '/docs/MOD10_ON_for_LOA.docx'
+      },
+      {
+        title: 'LOA Approved Document (Letter of Award)',
+        filename: 'MOD10_LOA_approved.pdf',
+        format: 'PDF',
+        size: '74 KB',
+        url: '/docs/MOD10_LOA_approved.pdf'
       }
     ],
     status: 'pending',
     uploadedFile: null,
-    promptGuide: 'Draft an official Financial Sanction Order and corresponding Work Order for the selected contractor, specifying sanctioned amount, budget accounting head, milestones, completion period, LD clauses, and measurement verification protocol.'
+    promptGuide: 'Using the attached Office Note for LOA (ON for LOA), approved LOA document, and reference templates, draft an official Financial Sanction Order and corresponding Work Order for the selected contractor, specifying sanctioned amount, budget accounting head, milestones, completion period, LD clauses, and measurement verification protocol.'
   },
   {
     id: 'mod-11',

@@ -52,13 +52,25 @@ export default function App() {
     };
   });
 
-  // Load modules from sessionStorage to preserve uploaded file names across reloads
+  // Load modules from sessionStorage to preserve uploaded file names across reloads while syncing latest reference docs
   const [modules, setModules] = useState<ModuleItem[]>(() => {
     try {
       const saved = sessionStorage.getItem(MODULES_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return INITIAL_MODULES.map((initMod) => {
+            const savedMod = parsed.find((p: ModuleItem) => p.id === initMod.id);
+            if (savedMod) {
+              return {
+                ...initMod,
+                status: savedMod.status,
+                uploadedFile: savedMod.uploadedFile,
+              };
+            }
+            return initMod;
+          });
+        }
       }
     } catch {
       // ignore
